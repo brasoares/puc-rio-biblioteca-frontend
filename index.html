@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Familiar - Sistema de Gerenciamento</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">📚</span>
+                <span class="brand-text">Biblioteca Familiar</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <span class="nav-icon">🏠</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="livros">
+                        <span class="nav-icon">📖</span> Livros
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="membros">
+                        <span class="nav-icon">👥</span> Membros
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="emprestimos">
+                        <span class="nav-icon">🔄</span> Empréstimos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="wishlist">
+                        <span class="nav-icon">⭐</span> Lista de Desejos
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="section-header">
+                <h1>Dashboard</h1>
+                <p class="section-subtitle">Visão geral da biblioteca familiar</p>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon books">📚</div>
+                    <div class="stat-info">
+                        <h3 id="totalLivros">0</h3>
+                        <p>Total de Livros</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon available">✅</div>
+                    <div class="stat-info">
+                        <h3 id="livrosDisponiveis">0</h3>
+                        <p>Disponíveis</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon members">👨‍👩‍👧‍👦</div>
+                    <div class="stat-info">
+                        <h3 id="totalMembros">0</h3>
+                        <p>Membros da Família</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon loans">📤</div>
+                    <div class="stat-info">
+                        <h3 id="emprestimosAtivos">0</h3>
+                        <p>Empréstimos Ativos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Ações Rápidas</h2>
+                <div class="action-buttons">
+                    <button class="action-btn primary" onclick="showAddBookModal()">
+                        <span class="btn-icon">➕</span> Adicionar Livro
+                    </button>
+                    <button class="action-btn secondary" onclick="showAddMemberModal()">
+                        <span class="btn-icon">👤</span> Novo Membro
+                    </button>
+                    <button class="action-btn tertiary" onclick="showLoanModal()">
+                        <span class="btn-icon">📤</span> Emprestar Livro
+                    </button>
+                </div>
+            </div>
+
+            <!-- Top Readers Ranking -->
+            <div class="rankings-container">
+                <div class="ranking-card">
+                    <h2>🏆 Top Leitores</h2>
+                    <div id="topLeitores" class="ranking-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="ranking-card">
+                    <h2>📖 Livros Mais Lidos</h2>
+                    <div id="livrosPopulares" class="ranking-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Books Section -->
+        <section id="livros" class="content-section">
+            <div class="section-header">
+                <h1>Catálogo de Livros</h1>
+                <div class="header-actions">
+                    <input type="text" id="searchBooks" placeholder="Buscar livros..." class="search-input">
+                    <select id="filterGenre" class="filter-select">
+                        <option value="">Todos os Gêneros</option>
+                        <option value="Ficção">Ficção</option>
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Aventura">Aventura</option>
+                        <option value="Biografia">Biografia</option>
+                        <option value="História">História</option>
+                        <option value="Infantil">Infantil</option>
+                    </select>
+                    <button class="btn-filter" onclick="toggleFilter('classicos')">
+                        ⭐ Clássicos da Família
+                    </button>
+                </div>
+            </div>
+            
+            <div id="booksGrid" class="books-grid">
+                <!-- Book cards populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Members Section -->
+        <section id="membros" class="content-section">
+            <div class="section-header">
+                <h1>Membros da Família</h1>
+                <button class="btn-primary" onclick="showAddMemberModal()">
+                    Adicionar Membro
+                </button>
+            </div>
+            
+            <div id="membersGrid" class="members-grid">
+                <!-- Member cards populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Loans Section -->
+        <section id="emprestimos" class="content-section">
+            <div class="section-header">
+                <h1>Gerenciar Empréstimos</h1>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="ativos">Ativos</button>
+                    <button class="tab-btn" data-tab="historico">Histórico</button>
+                    <button class="tab-btn" data-tab="atrasados">Atrasados</button>
+                </div>
+            </div>
+            
+            <div id="loansList" class="loans-list">
+                <!-- Loans populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist" class="content-section">
+            <div class="section-header">
+                <h1>Lista de Desejos</h1>
+                <button class="btn-primary" onclick="showAddWishlistModal()">
+                    Adicionar Desejo
+                </button>
+            </div>
+            
+            <div class="wishlist-filters">
+                <button class="priority-filter active" data-priority="all">Todos</button>
+                <button class="priority-filter alta" data-priority="alta">Alta Prioridade</button>
+                <button class="priority-filter media" data-priority="média">Média Prioridade</button>
+                <button class="priority-filter baixa" data-priority="baixa">Baixa Prioridade</button>
+            </div>
+            
+            <div id="wishlistGrid" class="wishlist-grid">
+                <!-- Wishlist items populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Novo Livro</h2>
+                <span class="close-modal" onclick="closeModal('addBookModal')">&times;</span>
+            </div>
+            <form id="addBookForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookTitle">Título *</label>
+                        <input type="text" id="bookTitle" name="titulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Autor *</label>
+                        <input type="text" id="bookAuthor" name="autor" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookISBN">ISBN</label>
+                        <input type="text" id="bookISBN" name="isbn">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookYear">Ano de Publicação</label>
+                        <input type="number" id="bookYear" name="ano_publicacao">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookGenre">Gênero</label>
+                        <select id="bookGenre" name="genero">
+                            <option value="">Selecione...</option>
+                            <option value="Ficção">Ficção</option>
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Biografia">Biografia</option>
+                            <option value="História">História</option>
+                            <option value="Infantil">Infantil</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Poesia">Poesia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPages">Número de Páginas</label>
+                        <input type="number" id="bookPages" name="num_paginas">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookLocation">Localização</label>
+                        <input type="text" id="bookLocation" name="localizacao" placeholder="Ex: Estante A, Prateleira 2">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAge">Idade Recomendada</label>
+                        <select id="bookAge" name="idade_recomendada">
+                            <option value="Todas">Todas as idades</option>
+                            <option value="10+">10+ anos</option>
+                            <option value="14+">14+ anos</option>
+                            <option value="18+">18+ anos</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookSynopsis">Sinopse</label>
+                    <textarea id="bookSynopsis" name="sinopse" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookCover">URL da Capa</label>
+                    <input type="url" id="bookCover" name="capa_url" placeholder="http://...">
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="bookClassic" name="classicos_familia">
+                        <span>⭐ Marcar como Clássico da Família</span>
+                    </label>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('addBookModal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Adicionar Livro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="addMemberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Novo Membro</h2>
+                <span class="close-modal" onclick="closeModal('addMemberModal')">&times;</span>
+            </div>
+            <form id="addMemberForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="memberName">Nome *</label>
+                        <input type="text" id="memberName" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberEmail">Email *</label>
+                        <input type="email" id="memberEmail" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="memberNickname">Apelido</label>
+                        <input type="text" id="memberNickname" name="apelido">
+                    </div>
+                    <div class="form-group">
+                        <label for="memberAge">Idade</label>
+                        <input type="number" id="memberAge" name="idade">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="memberType">Tipo de Membro</label>
+                    <select id="memberType" name="tipo">
+                        <option value="membro">Membro</option>
+                        <option value="administrador">Administrador</option>
+                        <option value="criança">Criança</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="memberColor">Cor do Avatar</label>
+                    <input type="color" id="memberColor" name="avatar_cor" value="#3B82F6">
+                </div>
+                
+                <div class="form-group">
+                    <label for="memberGenres">Gêneros Favoritos</label>
+                    <input type="text" id="memberGenres" name="generos_favoritos" placeholder="Ficção, Fantasia, Romance">
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('addMemberModal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Adicionar Membro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loan Modal -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Emprestar Livro</h2>
+                <span class="close-modal" onclick="closeModal('loanModal')">&times;</span>
+            </div>
+            <form id="loanForm" class="modal-form">
+                <div class="form-group">
+                    <label for="loanBook">Selecione o Livro *</label>
+                    <select id="loanBook" name="id_livro" required>
+                        <option value="">Selecione...</option>
+                        <!-- Options populated by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loanType">Tipo de Empréstimo *</label>
+                    <select id="loanType" name="tipo_emprestimo" onchange="toggleLoanType()" required>
+                        <option value="interno">Membro da Família</option>
+                        <option value="externo">Amigo Externo</option>
+                    </select>
+                </div>
+                
+                <div id="internalLoan" class="loan-type-fields">
+                    <div class="form-group">
+                        <label for="loanMember">Membro da Família *</label>
+                        <select id="loanMember" name="id_membro">
+                            <option value="">Selecione...</option>
+                            <!-- Options populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="externalLoan" class="loan-type-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="friendName">Nome do Amigo *</label>
+                        <input type="text" id="friendName" name="nome_amigo">
+                    </div>
+                    <div class="form-group">
+                        <label for="friendContact">Contato do Amigo</label>
+                        <input type="text" id="friendContact" name="contato_amigo" placeholder="Telefone ou email">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loanNotes">Observações</label>
+                    <textarea id="loanNotes" name="observacoes" rows="2"></textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('loanModal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Confirmar Empréstimo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/livros.js"></script>
+    <script src="js/membros.js"></script>
+    <script src="js/emprestimos.js"></script>
+    <script src="js/wishlist.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

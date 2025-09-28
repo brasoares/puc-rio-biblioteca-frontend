@@ -1,0 +1,27 @@
+
+biblioteca-familiar-frontend/
+│
+├── index.html                 # Main SPA file (✅ DONE)
+├── README.md                  # Frontend documentation
+│
+├── css/                       # Stylesheets
+│   ├── style.css             # Main styles
+│   ├── cards.css             # Card components styles
+│   └── responsive.css        # Media queries
+│
+├── js/                        # JavaScript files
+│   ├── config.js             # API configuration & constants
+│   ├── api.js                # API communication layer
+│   ├── utils.js              # Utility functions
+│   ├── app.js                # Main application logic
+│   ├── dashboard.js          # Dashboard functionality
+│   ├── livros.js             # Books management
+│   ├── membros.js            # Members management
+│   ├── emprestimos.js        # Loans management
+│   └── wishlist.js           # Wishlist functionality
+│
+└── assets/                    # Static assets (optional)
+    ├── images/               
+    │   └── default-book.png  # Default book cover
+    └── icons/
+        └── favicon.ico        # Browser icon
